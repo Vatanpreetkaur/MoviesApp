@@ -1,14 +1,15 @@
 
-
 import { View, Text, Image, Select, SelectTrigger, SelectInput, SelectIcon, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectDragIndicator, SelectItem, Icon, ChevronDownIcon, Box, HStack, VStack, ScrollView, Button } from '@gluestack-ui/themed';
+import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BASE_URL, API_KEY, fetchTvShows } from '../../services/api';
+import  { fetchTvShows }  from '../../services/api';
 
 
 const TVShows = () => {
   const [selectedCategory, setSelectedCategory] = useState('popular'); // Default set to 'popular'
   const [tvShows, setTvShows] = useState([]);
+  const navigation = useNavigation();
 
   // Fetch TV shows when a category is selected
   useEffect(() => {
@@ -16,6 +17,10 @@ const TVShows = () => {
       fetchTvShows(selectedCategory, setTvShows);
     }
   }, [selectedCategory]);
+  
+  const handleMoreDetails = (show) => {
+    navigation.navigate('MoreDetailsScreen',  { item: show, type: 'tv' });
+  };
 
   
 
@@ -31,7 +36,8 @@ const TVShows = () => {
         value={selectedCategory}
       >
         <SelectTrigger variant="outline" size="md">
-          <SelectInput placeholder="Select option" />
+          <SelectInput placeholder="Select option"
+          value={selectedCategory}  />
           <SelectIcon mr="$3">
             <Icon as={ChevronDownIcon} />
           </SelectIcon>
@@ -69,7 +75,12 @@ const TVShows = () => {
                     <Text>Title: {show.name}</Text>
                     <Text>Popularity: {show.popularity}</Text>
                     <Text>First Air Date: {show.first_air_date}</Text>
-                    <Button><Text color='white'>More Details</Text></Button> 
+                    <Button
+                        
+                        onPress={() => handleMoreDetails(show)}  
+                      ><Text color='white' >More Details</Text>
+                        
+                      </Button>
                   </VStack>
                 </HStack>    
               </Box>
@@ -82,3 +93,6 @@ const TVShows = () => {
 };
 
 export default TVShows;
+
+
+

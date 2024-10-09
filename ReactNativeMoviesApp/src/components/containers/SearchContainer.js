@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { Center, Text, Image, ScrollView, View, Box, HStack, VStack, Button } from "@gluestack-ui/themed";
 import SearchForm from '../forms/SearchForm';
+import { useNavigation } from '@react-navigation/native';
 import { fetchSearchResults } from '../../services/api';
  
  
@@ -9,18 +9,23 @@ import { fetchSearchResults } from '../../services/api';
 
 const SearchContainer = () => {
     const [movie, setMovie] = useState('');
-    const [searchType, setSearchType] = useState('movie'); // Default search type is 'movie'
+    const [searchType, setSearchType] = useState(''); 
     const [results, setResults] = useState([]);
     const [error, setError] = useState('');
+    const navigation = useNavigation();
 
     const handleSearch = () => {
-        // Call the fetchMovies function
+        
         fetchSearchResults(movie, searchType, setResults, setError);
     };
 
-    const handleInputChange = (movie) => {
-        setMovie(movie);
+    const handleInputChange = (result) => {
+        setMovie(result);
     };
+
+    const handleMoreDetails = (result) => {
+        navigation.navigate('MoreDetailsScreen', { item: result, type: result.media_type });
+      };
 
     return (
         <View mt={10}>
@@ -38,7 +43,7 @@ const SearchContainer = () => {
             />
             
 
-            {/* Render search results here */}
+           
 
            
 
@@ -52,7 +57,7 @@ const SearchContainer = () => {
                             <HStack>
                             
                             <Image
-                                source={{ uri: `https://image.tmdb.org/t/p/w500${result.poster_path}` }} // Poster URL from TMDb
+                                source={{ uri: `https://image.tmdb.org/t/p/w500${result.poster_path}` }} 
                                 alt={`${result.title || result.name} Poster`}
                                 width={100}
                                 height={110}
@@ -69,14 +74,19 @@ const SearchContainer = () => {
                            
                             <Text>Release Date: {result.release_date || 'not found'}</Text>
 
-                            <Button><Text color='white'>More Details</Text></Button>
+                            <Button
+                        
+                        onPress={() => handleMoreDetails(result)}  
+                      ><Text color='white' >More Details</Text>
+                        
+                      </Button>
                             </VStack>
                         </HStack>
                         </Box>
                         </View>
                     ))
                 ) : (
-                    !error && <Text>No results found. Try a different search.</Text>
+                    !error && <Text style={{textAlign: 'center' , fontSize: '22'}}>Please initiate a search.</Text>
                 )}
             </ScrollView>
         </View>
@@ -84,4 +94,3 @@ const SearchContainer = () => {
 };
 
 export default SearchContainer;
-

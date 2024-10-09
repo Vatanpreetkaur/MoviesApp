@@ -5,7 +5,7 @@ import MoviesContainer from '../containers/MoviesContainer';
 import TVShowsContainer from '../containers/TVShowsContainer'; 
 import SearchContainer from '../containers/SearchContainer'; 
 
-const AppHeader = () => {
+const MainScreen = () => {
   const [selectedTab, setSelectedTab] = useState('Movies'); 
 
   // Render content based on selected tab
@@ -23,14 +23,13 @@ const AppHeader = () => {
   };
 
   return (
-    <SafeAreaView  backgroundColor='#2c3e50 ' style={{ flex: 1 }}>
-      <StatusBar barStyle= 'light-content' backgroundColor='#2c3e50' />
-             <Box bg='#2c3e50' alignItems="center" justifyContent="center" SafeAreaTop py={5}>
-                 <Text fontSize={20} fontWeight="bold" color="#fff">
-                     Movies App
-                 </Text>
-             </Box>
-            
+    <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar style='light' bg='#2c3e50' />
+      <Box bg='#2c3e50' alignItems="center" justifyContent="center" py={5}>
+        <Text fontSize={20} fontWeight="bold" color="#fff">
+          Movies App
+        </Text>
+      </Box>
 
       {/* Tab Navigation */}
       <Box flexDirection="row" justifyContent="space-around" bg="blue.500" py={2}>
@@ -65,5 +64,5 @@ const AppHeader = () => {
   );
 };
 
-export default AppHeader;
+export default MainScreen;
 

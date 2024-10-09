@@ -49,7 +49,8 @@ const SearchForm = ({ onInputChange, onSubmit, searchType, setSearchType }) => {
         <HStack>
           <Select width='60%' mr={5} value={searchType} onValueChange={setSearchType}>
             <SelectTrigger variant="outline" size="md">
-              <SelectInput placeholder="Select option" />
+              <SelectInput placeholder="Select option"
+              value={searchType} />
               <SelectIcon mr="$3">
                 <Icon as={ChevronDownIcon} />
               </SelectIcon>
